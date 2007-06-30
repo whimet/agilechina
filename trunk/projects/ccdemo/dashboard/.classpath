@@ -2,10 +2,8 @@
 <classpath>
 	<classpathentry excluding="**/.svn/**|war/WEB-INF/" kind="src" path="src"/>
 	<classpathentry kind="src" path="webapp"/>
-	<classpathentry excluding="**/.svn/**" kind="src" path="test/data"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="test/unit"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="test/functional"/>
-	<classpathentry excluding="**/.svn/**" kind="src" path="properties/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
 	<classpathentry kind="lib" path="lib/buildtime/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="lib/buildtime/cglib-full-2.0.jar"/>
@@ -60,7 +58,7 @@
 	<classpathentry kind="lib" path="lib/mx4j-remote.jar"/>
 	<classpathentry kind="lib" path="lib/mx4j-tools.jar"/>
 	<classpathentry kind="lib" path="/home/khu/workspace/cruisecontrol-trunk/cruisecontrol/main/dist/cruisecontrol.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/j2sdk1.4.2_13"/>
 	<classpathentry kind="lib" path="lib/xercesImpl-2.8.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
