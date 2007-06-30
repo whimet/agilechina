@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Calc Demo</title>
+    <script src="/javascripts/prototype.js"></script>
+    <script src="/javascripts/scriptaculous.js"></script>
+    <script src="/javascripts/calc.js"></script>
+</head>
+<body>
+<div>
+	<input id="left">
+	<select id="operator">
+		<option selected value="add">add</option>
+		<option value="subtract">subtract</option>
+		<option value="divide">divide</option>
+		<option value="multiply">multiply</option>
+	</select>
+	<input id="right">
+	<input type="button" id="calc" value="Calc" onclick="do_calc()"/>
+</div>
+<div id="result">
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<browserResult id="1183223861425" time="0.412"><properties><property name="browserFileName" value="/usr/bin/firefox" /><property name="browserId" value="0" /><property name="jsUnitVersion" value="2.2" /><property name="userAgent" value="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.4) Gecko/20060601 Firefox/2.0.0.4 (Ubuntu-edgy)" /><property name="remoteAddress" value="127.0.0.1" /><property name="url" value="http://localhost:8585/jsunit/tests/jsUnitTestSuite.html" /></properties><testCases><testCase name="http://localhost:8585/jsunit/tests/ajax_do_calc_test.html:test_should_return_correct_url" time="0.0"><error>Error message is:&#xD;
+"ReferenceError: do_calc is not defined"&#xD;
+&#xD;
+Stack trace follows:&#xD;
+test_should_return_correct_url()@http://localhost:8585/jsunit/tests/ajax_do_calc_test.html?cacheBuster=1183223860614:17&#xD;
+("test_should_return_correct_url")@http://localhost:8585/jsunit/app/jsUnitTestManager.js:351&#xD;
+()@http://localhost:8585/jsunit/app/jsUnitTestManager.js:162&#xD;
+("tests/ajax_do_calc_test.html")@http://localhost:8585/jsunit/app/jsUnitTestManager.js:98&#xD;
+()@http://localhost:8585/jsunit/app/jsUnitTestManager.js:329&#xD;
+@http://localhost:8585/jsunit/app/jsUnitTestManager.js:326&#xD;
+</error></testCase></testCases></browserResult>
