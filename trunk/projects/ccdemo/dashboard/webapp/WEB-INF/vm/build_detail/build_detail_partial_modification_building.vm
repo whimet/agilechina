@@ -1,4 +1,0 @@
-<div id="modifications" class="modifications" $modification_extra_attrs>
-    <h2>Modifications</h2>
-    <ul id="modification_keys" class="modifications"></ul>
-</div>
