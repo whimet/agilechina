@@ -1,8 +1,11 @@
 <project name="cruise-dashboard" default="all.test">
+    <import file="panopticode/panopticode-imports.xml" />
+
 	<property name="build.dir" value="target" />
 	<property name="dist.dir" value="dist" />
 	<property name="war.dir" value="${build.dir}/war" />
 	<property name="app.classes.dir" value="${war.dir}/WEB-INF/classes" />
+	<property name="emma.classes.dir" value="${build.dir}/classes" />
 	<property name="test.classes.dir" value="${build.dir}/classes/test" />
 	<property name="functionaltest.classes.dir" value="${build.dir}/classes/functionaltest" />
 	<property name="src.dir" value="src" />
@@ -12,7 +15,6 @@
 	<property name="unittest.dir" value="${test.dir}/unit" />
 	<property name="functionaltest.dir" value="${test.dir}/functional" />
 	<property name="reports.dir" value="${build.dir}/reports" />
-	<property name="emma.dir" location="target/emma" />
 
 	<import file="jsunit/jsunit.xml" />
 
@@ -20,18 +22,10 @@
 		<fileset dir="${basedir}/lib" includes="**/*.jar" />
 	</path>
 
-	<path id="emma.lib.dir">
-		<fileset dir="${basedir}/lib" includes="**/emma*.jar" />
-	</path>
-
 	<path id="app.classpath">
 		<path refid="lib.classpath" />
 		<pathelement path="${app.classes.dir}" />
-	</path>
-
-	<path id="emma.classpath">
-		<path refid="lib.classpath" />
-		<pathelement path="${emma.dir}/classes" />
+		<fileset dir="panopticode" includes="lib/**/*.jar" />
 	</path>
 
 	<fileset dir="lib" id="product.lib">
@@ -43,17 +37,14 @@
 	</path>
 
 	<path id="test.classpath">
-		<path refid="emma.classpath" />
-		<path refid="app.classpath" />
+		<pathelement path="${emma.classes.dir}" />
 		<pathelement path="${test.classes.dir}" />
 		<pathelement path="${functionaltest.classes.dir}" />
 		<pathelement path="${war.src.dir}" />
+		<path refid="app.classpath" />
 	</path>
 
-	<taskdef resource="emma_ant.properties" classpathref="emma.lib.dir" />
-
 	<target name="-clean">
-		<delete dir="${emma.dir}/classes" quiet="true" />
 		<delete dir="${build.dir}" quiet="true" />
 		<delete dir="${app.classes.dir}" quiet="true" />
 	</target>
@@ -69,11 +60,23 @@
 	<target name="-report-no-jsunit-tests" if="not.jdk1.5">
 		<echo>You are using an older jdk version, so functional testing with jsunit will be skipped.</echo>
 	</target>
+	
+    <target name="metrics" depends="clean">
+        <panopticode projectDir="${basedir}"
+                     projectName="${ant.project.name}"
+                     projectVersion="${version}"
+                     srcDir="${src.dir}" />
+    </target>
+
 
 	<target name="-compile">
 		<mkdir dir="${build.dir}" />
+		<mkdir dir="${emma.classes.dir}" />
 		<mkdir dir="${app.classes.dir}" />
 		<javac destdir="${app.classes.dir}" classpathref="app.classpath" debug="true" source="1.4" target="1.4">
+			<src location="${src.dir}" />
+		</javac>
+		<javac destdir="${emma.classes.dir}" classpathref="app.classpath" debug="true" source="1.4" target="1.4">
 			<src location="${src.dir}" />
 		</javac>
 	</target>
@@ -83,6 +86,7 @@
 		<mkdir dir="${functionaltest.classes.dir}" />
 		<javac destdir="${test.classes.dir}" classpathref="test.classpath" debug="true" failonerror="true" source="1.4" target="1.4">
 			<src location="${unittest.dir}" />
+			<compilerarg value="-Xlint:unchecked" />
 		</javac>
 		<javac destdir="${functionaltest.classes.dir}" classpathref="test.classpath" debug="true" failonerror="true" source="1.4" target="1.4">
 			<src location="${functionaltest.dir}" />
@@ -92,20 +96,13 @@
 	<target name="-unit-tests">
 		<mkdir dir="${reports.dir}" />
 		<mkdir dir="${test.classes.dir}/build" />
-		<junit printsummary="true" dir="${basedir}" haltonfailure="true" fork="true" forkMode="once">
-			<classpath refid="test.classpath" />
-			<jvmarg value="-Demma.coverage.out.file=${emma.dir}/coverage.emma" />
-			<jvmarg value="-Demma.coverage.out.merge=true" />
-
-			<formatter type="xml" />
-			<batchtest todir="${reports.dir}">
-				<fileset dir="${unittest.dir}">
-					<include name="**/*Test.java" />
-					<exclude name="**/AllTests.java" />
-					<exclude name="**/SpringBasedControllerTest.java" />
-				</fileset>
-			</batchtest>
-		</junit>
+        <mkdir dir="target/rawmetrics/xml/junit" />
+        <panopticode-junit unitTestClasspathId="test.classpath"
+                           outputDir="target">
+            <batchtest todir="target/rawmetrics/xml/junit">
+				<fileset dir="${test.classes.dir}" includes="**/*Test.class" />
+            </batchtest>
+        </panopticode-junit>
 	</target>
 
 
@@ -172,41 +169,6 @@
 		</java>
 	</target>
 
-
-	<target name="-emma.instr">
-		<mkdir dir="${emma.dir}" />
-		<mkdir dir="${emma.dir}/classes" />
-		<property name="junit.fail.on.error" value="false" />
-		<emma enabled="true">
-			<instr instrpath="${app.classes.dir}" destdir="${emma.dir}/classes" metadatafile="${emma.dir}/metadata.emma" merge="true"/>
-		</emma>
-	</target>
-
-	<target name="-emma.reporting">
-		<emma enabled="true">
-			<report sort="+name" metrics="method:83,block:83,line:74,class:88">
-				<fileset dir="${emma.dir}">
-					<include name="*.emma" />
-				</fileset>
-				<xml outfile="${emma.dir}/coverage.xml" />
-				<html outfile="${emma.dir}/coverage.html" />
-			</report>
-		</emma>
-	</target>
-
-	<target name="-emma.check">
-		<loadfile property="emma.output" srcFile="${emma.dir}/coverage.html" />
-		<fail message="Your code coverage is too low.">
-			<condition>
-				<contains string="${emma.output}" substring="class=&quot;h&quot;" casesensitive="false" />
-			</condition>
-		</fail>
-	</target>
-
-	<target name="-emma.clean">
-		<delete dir="${emma.dir}" />
-	</target>
-
 	<target name="-jsunit" unless="not.jdk1.5">
 		<copy todir="jsunit/ccjs" overwrite="true">
 			<fileset dir="${war.src.dir}/javascripts">
@@ -245,10 +207,68 @@
 		<get taskname="selenium-shutdown" src="http://localhost:4444/selenium-server/driver/?cmd=shutDown" dest="selenium-result.txt" ignoreerrors="true" />
 	</target>
 
+    <target name="rasterize-all-reports" depends="rasterize-png-reports,rasterize-jpeg-reports,rasterize-tiff-reports"/>
+
+    <target name="rasterize-png-reports">
+        <delete dir="target/reports/png" />
+        <mkdir dir="target/reports/png" />
+
+        <svg-to-png srcFile="target/reports/svg/complexity-treemap.svg"
+                    destFile="target/reports/png/complexity-treemap.png" />
+        <svg-to-png srcFile="target/reports/svg/coverage-treemap.svg"
+                    destFile="target/reports/png/coverage-treemap.png" />
+
+        <svg-to-png srcFile="target/reports/svg/complexity-treemap.svg"
+                    destFile="target/reports/png/complexity-treemap-thumb.png"
+                    width="128"
+                    height="96"/>
+        <svg-to-png srcFile="target/reports/svg/coverage-treemap.svg"
+                    destFile="target/reports/png/coverage-treemap-thumb.png"
+                    width="128"
+                    height="96"/>
+    </target>
+
+    <target name="rasterize-jpeg-reports">
+        <delete dir="target/reports/jpeg" />
+        <mkdir dir="target/reports/jpeg" />
+
+        <svg-to-jpeg srcFile="target/reports/svg/complexity-treemap.svg"
+                     destFile="target/reports/jpeg/complexity-treemap.jpg" />
+        <svg-to-jpeg srcFile="target/reports/svg/coverage-treemap.svg"
+                     destFile="target/reports/jpeg/coverage-treemap.jpg" />
+
+        <svg-to-jpeg srcFile="target/reports/svg/complexity-treemap.svg"
+                     destFile="target/reports/jpeg/complexity-treemap-thumb.jpg"
+                     width="128"
+                     height="96"/>
+        <svg-to-jpeg srcFile="target/reports/svg/coverage-treemap.svg"
+                     destFile="target/reports/jpeg/coverage-treemap-thumb.jpg"
+                     width="128"
+                     height="96"/>
+    </target>
+
+    <target name="rasterize-tiff-reports">
+        <delete dir="target/reports/tiff" />
+        <mkdir dir="target/reports/tiff" />
+
+        <svg-to-tiff srcFile="target/reports/svg/complexity-treemap.svg"
+                     destFile="target/reports/tiff/complexity-treemap.tif" />
+        <svg-to-tiff srcFile="target/reports/svg/coverage-treemap.svg"
+                     destFile="target/reports/tiff/coverage-treemap.tif" />
+
+        <svg-to-tiff srcFile="target/reports/svg/complexity-treemap.svg"
+                     destFile="target/reports/tiff/complexity-treemap-thumb.tif"
+                     width="128"
+                     height="96"/>
+        <svg-to-tiff srcFile="target/reports/svg/coverage-treemap.svg"
+                     destFile="target/reports/tiff/coverage-treemap-thumb.tif"
+                     width="128"
+                     height="96"/>
+    </target>
+	
 	<target name="--compile" depends="-clean, -copy.resources.web, -compile" />
 	<target name="--run.unit.tests" depends="--compile, -compile-tests,-unit-tests" />
 	<target name="--run.functional.tests" depends="--prepare.functional.tests, -functional-tests" />
-	<target name="--stat" depends="-emma.clean, --compile, -compile-tests, -emma.instr, -unit-tests, -emma.reporting, -emma.check" />
 	<target name="--start-jetty-server" depends="-start.jetty.server" />
 	<target name="--run.all.tests" depends="--run.unit.tests, --run.functional.tests, -checkstyle-main" />
 	<target name="--prepare.functional.tests" depends="--compile, -compile-tests, -war.development" />
@@ -257,12 +277,13 @@
 	<target name="--dist" depends="-clean, --run.all.tests, -war.production" />
 	<target name="--product" depends="--compile, -war.production" description="build and package war without testing" />
 
+	<target name="compile" depends="-compile" />
+	<target name="clean" depends="-clean" />
+	<target name="unit-test" depends="-copy.resources.web, -compile, -compile-tests, -unit-tests" description="run all unit tests" />
 	<target name="ut" depends="--run.unit.tests" description="run all unit tests" />
 	<target name="ft" depends="--run.functional.tests" description="run all functional tests" />
 	<target name="start.server" depends="--compile, -compile-tests, --start-jetty-server" description="start jetty server" />
-	<target name="all.test" depends="--run.all.tests, js.unit, --run.selenium.tests, -war.production" description="run unit tests and functional tests" />
-	<target name="clean" depends="-clean" description="clean all" />
-	<target name="stat" depends="--stat" description="generating the test coverage of source code" />
+	<target name="all.test" depends="metrics, rasterize-all-reports, --run.all.tests, js.unit, --run.selenium.tests, -war.production" description="run unit tests and functional tests" />
 	<target name="checkstyle" depends="-checkstyle-main" description="checkstyle" />
 	<target name="js.unit" depends="-check-jdk, -report-no-jsunit-tests, -jsunit" description="run jsunit test" />
 	<target name="selenium" depends="--selenium" description="run selenium test" />
