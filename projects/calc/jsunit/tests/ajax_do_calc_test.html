@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CCE Dashboard Tests</title>
+<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript" src="../app/jsUnitVersionCheck.js"></script>
+<script language="JavaScript" type="text/javascript" src="../ccjs/prototype.js"></script>
+<script language="JavaScript" type="text/javascript" src="../ccjs/calc.js"></script>
+<script language="JavaScript" type="text/javascript" src="../ccjs/scriptaculous.js"></script>
+<script language="JavaScript" type="text/javascript">
+function test_should_return_correct_url() {
+   Ajax.Updater.prototype.initialize = function(container, url) {
+       assertEquals('result', container);
+       assertEquals('subtract/2/3', url);
+   }
+   do_calc();
+}
+</script>
+</head>
+<body>
+<div>
+	<input id="left" value="2">
+	<select id="operator">
+		<option value="add">add</option>
+		<option selected value="subtract">subtract</option>
+		<option value="divide">divide</option>
+		<option value="multiply">multiply</option>
+	</select>
+	<input id="right" value="3">
+	<input type="button" id="calc" value="Calc"/>
+</div>
+<div id="result">
+</div>
+</body>
+</html>

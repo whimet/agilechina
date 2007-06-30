@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!--main/default page-->
+				<prop key="**/*">calcController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="calcController"
+		class="com.google.code.calc.web.CalcController">
+		<constructor-arg ref="calculator" />
+		<property name="methodNameResolver" ref="calcResolver" />
+	</bean>
+
+	<bean id="calculator" class="com.google.code.calc.Calc" />
+
+	<bean id="calcResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<value>
+				/load=load
+				/add/**=add
+				/subtract/**=subtract
+				/multiply/**=multiply
+				/divide/**=divide
+			</value>
+		</property>
+	</bean>
+
+	<!-- Views and resolvers -->
+	<bean id="velocityConfig"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/vm" />
+	</bean>
+
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".vm" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="req" />
+		<property name="order" value="2" />
+	</bean>
+	<bean id="beanNameViewResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1" />
+	</bean>
+</beans>
+

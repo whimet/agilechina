@@ -1,0 +1,12 @@
+<browserResult id="1183224478292" time="0.464"><properties><property name="browserFileName" value="/usr/bin/firefox" /><property name="browserId" value="0" /><property name="jsUnitVersion" value="2.2" /><property name="userAgent" value="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.4) Gecko/20060601 Firefox/2.0.0.4 (Ubuntu-edgy)" /><property name="remoteAddress" value="127.0.0.1" /><property name="url" value="http://localhost:8585/jsunit/tests/jsUnitTestSuite.html" /></properties><testCases><testCase name="http://localhost:8585/jsunit/tests/ajax_do_calc_test.html:test_should_return_correct_url" time="0.0010"><failure>Expected &lt;add/1/2&gt; (String) but was &lt;subtract/2/3&gt; (String)&#xD;
+&#xD;
+Stack trace follows:&#xD;
+&gt; JsUnitException&#xD;
+&gt; _assert&#xD;
+&gt; assertEquals&#xD;
+&gt; anonymous&#xD;
+&gt; apply&#xD;
+&gt; anonymous&#xD;
+&gt; do_calc&#xD;
+&gt; test_should_return_correct_url&#xD;
+</failure></testCase></testCases></browserResult>
