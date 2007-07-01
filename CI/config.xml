@@ -1,0 +1,34 @@
+<cruisecontrol>
+    <project name="calc">
+
+        <listeners>
+            <currentbuildstatuslistener file="logs/${project.name}/status.txt"/>
+        </listeners>
+
+        <bootstrappers>
+            <svnbootstrapper localWorkingCopy="projects/${project.name}" />
+        </bootstrappers>
+
+        <modificationset quietperiod="30">
+            <svn localWorkingCopy="projects/${project.name}"/>
+        </modificationset>
+
+        <schedule interval="300">
+            <ant anthome="apache-ant-1.6.5" antWorkingDir="projects/${project.name}" />
+        </schedule>
+
+        <log>
+            <merge dir="projects/${project.name}/target/rawmetrics/xml/junit"/>
+        </log>
+
+        <publishers>
+            <onsuccess>
+                <artifactspublisher dest="artifacts/${project.name}" file="projects/${project.name}/dist/${project.name}.war"/>
+            </onsuccess>
+			<artifactspublisher dest="artifacts/${project.name}" dir="projects/${project.name}/target/reports/svg"/>
+        </publishers>
+
+    </project>
+
+
+</cruisecontrol>
