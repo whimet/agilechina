@@ -6,20 +6,22 @@
     <script src="/javascripts/prototype.js"></script>
     <script src="/javascripts/scriptaculous.js"></script>
     <script src="/javascripts/calc.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/calc.css">
 </head>
 <body>
-<div>
-	<input id="left">
-	<select id="operator">
-		<option selected value="add">add</option>
-		<option value="subtract">subtract</option>
-		<option value="divide">divide</option>
-		<option value="multiply">multiply</option>
-	</select>
-	<input id="right">
-	<input type="button" id="calc" value="Calc" onclick="do_calc()"/>
-</div>
-<div id="result">
+<div class="container">
+	<div>
+		<input type="text" id="left">
+		<select id="operator">
+			<option selected value="add">add</option>
+			<option value="subtract">subtract</option>
+			<option value="divide">divide</option>
+			<option value="multiply">multiply</option>
+		</select>
+		<input type="text" id="right">
+		<input type="button" id="calc" value="=" onclick="do_calc()"/>
+		<input type="text" id="result">
+	</div>
 </div>
 </body>
 </html>

@@ -10,8 +10,7 @@
 <script language="JavaScript" type="text/javascript" src="../ccjs/scriptaculous.js"></script>
 <script language="JavaScript" type="text/javascript">
 function test_should_return_correct_url() {
-   Ajax.Updater.prototype.initialize = function(container, url) {
-       assertEquals('result', container);
+   Ajax.Request.prototype.initialize = function(url) {
        assertEquals('subtract/2/3', url);
    }
    do_calc();
