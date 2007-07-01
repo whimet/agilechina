@@ -4,10 +4,12 @@ function do_calc() {
     var operatorBox = $('operator');
 	var operator = operatorBox.options[operatorBox.selectedIndex].value;
 	var url = operator + '/' + left + '/' + right;
-    new Ajax.Updater('result', url,
- 			{
+    new Ajax.Request(url, {
 	            asynchronous:1,
-	            method: 'GET'
+	            method: 'GET',
+	            onSuccess: function(transport) {
+	            	$('result').value = transport.responseText
+	            }
 	        }
 	)
 }
