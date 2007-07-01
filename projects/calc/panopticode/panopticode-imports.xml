@@ -67,11 +67,15 @@
 
             <!-- Run the panopticode doclet to build the core data structure -->
                 <mkdir dir="@{outputDir}" />
-
-                <javadoc classpath="@{panopticodeDir}/panopticode.jar"
-                         sourcepath="@{srcDir}"
+                <javadoc sourcepath="@{srcDir}"
                          access="private">
-                  <fileset dir="@{srcDir}" />
+		  <classpath>
+		      <fileset dir="@{projectDir}/lib">
+		        <include name="**/*.jar"/>
+		      </fileset>
+		      <pathelement location="@{panopticodeDir}/panopticode.jar"/>
+		  </classpath>
+		  <fileset dir="@{srcDir}" />
                   <doclet name="org.panopticode.doclet.PanopticodeDoclet"
                           path="@{panopticodeDir}/panopticode.jar">
                     <param name="-debug" value="true" />
