@@ -7,7 +7,7 @@ public class CalcTest extends SeleniumTestCase {
 		selenium.type("right", "2");
 		selenium.click("calc");
 		Thread.sleep(500);
-		assertTrue(selenium.isTextPresent("Result : 3"));
+		assertEquals("3", selenium.getValue("result"));
 	}
 
 
@@ -17,6 +17,6 @@ public class CalcTest extends SeleniumTestCase {
 		selenium.type("right", "");
 		selenium.click("calc");
 		Thread.sleep(500);
-		assertTrue(selenium.isTextPresent("Result : 0"));
+		assertEquals("0", selenium.getValue("result"));
 	}
 }
