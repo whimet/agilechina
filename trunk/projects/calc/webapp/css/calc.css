@@ -1,0 +1,21 @@
+.container {
+	margin-top : 200px;	
+}
+
+input[type=text] {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 100px;
+    width:200px;
+    background-color: #656D78;
+    border: 1px solid #333333;
+    color: #cccccc;
+}
+
+input[type=button] {
+    width:200px;
+    font-size: 100px;
+}
+
+select {
+    font-size: 100px;
+}
