@@ -11,6 +11,16 @@ public class CalcTest extends SeleniumTestCase {
 		selenium.click("calc");
 		Thread.sleep(5000);
 		assertEquals("3", selenium.getValue("result"));
-		
 	}
+	
+	public void testShouldReturn0IfNoOperandSpecified() throws Exception {
+		selenium.open("http://localhost:9191/calc/load");
+		Thread.sleep(5000);
+		selenium.type("left", "");
+		selenium.type("right","");
+		selenium.click("calc");
+		Thread.sleep(5000);
+		assertEquals("0",selenium.getValue("result"));
+	}
+
 }
