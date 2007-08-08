@@ -291,9 +291,3 @@
 	<target name="product" depends="--product" description="build and package war without testing" />
 </project>
 
-
-
-
-
-
-
