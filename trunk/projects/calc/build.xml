@@ -1,6 +1,8 @@
 <project name="cruise-dashboard" default="all.test">
     <import file="panopticode/panopticode-imports.xml" />
 
+
+
 	<property name="build.dir" value="target" />
 	<property name="dist.dir" value="dist" />
 	<property name="war.dir" value="${build.dir}/war" />
@@ -265,7 +267,11 @@
                      width="128"
                      height="96"/>
     </target>
-	
+
+	<taget name="-sleep">
+		<sleep minutes="1" />
+	</target>
+
 	<target name="--compile" depends="-clean, -copy.resources.web, -compile" />
 	<target name="--run.unit.tests" depends="--compile, -compile-tests,-unit-tests" />
 	<target name="--run.functional.tests" depends="--prepare.functional.tests, -functional-tests" />
@@ -283,7 +289,7 @@
 	<target name="ut" depends="--run.unit.tests" description="run all unit tests" />
 	<target name="ft" depends="--run.functional.tests" description="run all functional tests" />
 	<target name="start.server" depends="--compile, -compile-tests, --start-jetty-server" description="start jetty server" />
-	<target name="all.test" depends="metrics, rasterize-all-reports, --run.all.tests, js.unit, --run.selenium.tests, -war.production" description="run unit tests and functional tests" />
+	<target name="all.test" depends="-sleep, metrics, rasterize-all-reports, --run.all.tests, js.unit, --run.selenium.tests, -war.production" description="run unit tests and functional tests" />
 	<target name="checkstyle" depends="-checkstyle-main" description="checkstyle" />
 	<target name="js.unit" depends="-check-jdk, -report-no-jsunit-tests, -jsunit" description="run jsunit test" />
 	<target name="selenium" depends="--selenium" description="run selenium test" />
