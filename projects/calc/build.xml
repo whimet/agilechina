@@ -267,7 +267,7 @@
                      height="96"/>
     </target>
 
-	<taget name="-sleep">
+	<target name="-sleep">
 		<sleep minutes="1" />
 	</target>
 
