@@ -44,6 +44,7 @@
 		<path refid="app.classpath" />
 	</path>
 
+
 	<target name="-clean">
 		<delete dir="${build.dir}" quiet="true" />
 		<delete dir="${app.classes.dir}" quiet="true" />
