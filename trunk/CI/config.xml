@@ -28,6 +28,10 @@
 			<artifactspublisher dest="artifacts/${project.name}" dir="projects/${project.name}/target/reports/svg"/>
         </publishers>
 
+
+
+
+
     </project>
 
 
