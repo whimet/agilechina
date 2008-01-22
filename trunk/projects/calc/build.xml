@@ -270,7 +270,7 @@
     </target>
 
 	<target name="-sleep">
-		<sleep minutes="1" />
+		<sleep seconds="1" />
 	</target>
 
 	<target name="--compile" depends="-clean, -copy.resources.web, -compile" />
