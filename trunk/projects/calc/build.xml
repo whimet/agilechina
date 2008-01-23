@@ -67,7 +67,6 @@
                      srcDir="${src.dir}" />
     </target>
 
-
 	<target name="-compile">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${emma.classes.dir}" />
