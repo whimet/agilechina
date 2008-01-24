@@ -202,7 +202,6 @@
 	</target>
 	
 	
-	
 
 	<target name="-stop.selenium.server">
 		<get taskname="selenium-shutdown" src="http://localhost:4444/selenium-server/driver/?cmd=shutDown" dest="selenium-result.txt" ignoreerrors="true" />
