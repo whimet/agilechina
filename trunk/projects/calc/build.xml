@@ -15,7 +15,6 @@
 	<property name="functionaltest.dir" value="${test.dir}/functional" />
 	<property name="reports.dir" value="${build.dir}/reports" />
 	
-	
 	<import file="jsunit/jsunit.xml" />
 
 	<path id="lib.classpath">
