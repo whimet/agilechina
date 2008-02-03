@@ -103,7 +103,6 @@
         </panopticode-junit>
 	</target>
 
-
 	<target name="-functional-tests">
 		<mkdir dir="${reports.dir}" />
 		<junit printsummary="true" fork="true" haltonfailure="true" dir="${basedir}">
