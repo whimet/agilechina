@@ -1,4 +1,4 @@
-<project name="cruise-dashboard" default="all.test">  
+<project name="cruise-dashboard" default="all.test">
     <import file="panopticode/panopticode-imports.xml" />    
 	<property name="build.dir" value="target" />
 	<property name="dist.dir" value="dist" />
