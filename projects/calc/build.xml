@@ -14,6 +14,8 @@
 	<property name="unittest.dir" value="${test.dir}/unit" />
 	<property name="functionaltest.dir" value="${test.dir}/functional" />
 	<property name="reports.dir" value="${build.dir}/reports" />
+	
+	<target name="passed" />
 		
 	<import file="jsunit/jsunit.xml" />
 
