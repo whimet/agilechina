@@ -7,7 +7,7 @@
 <module name="Checker">
     <module name="Translation"/>
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>        
+        <property name="tabWidth" value="5"/>        
 
         <!-- Naming conventions -->
         <module name="ConstantName"/>
