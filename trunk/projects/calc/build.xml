@@ -16,7 +16,6 @@
 	<property name="reports.dir" value="${build.dir}/reports" />  
 	
 	
-	
 	<target name="passed" />
 		
 	<import file="jsunit/jsunit.xml" />
