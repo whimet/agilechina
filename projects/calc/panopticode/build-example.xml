@@ -19,7 +19,7 @@
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  IN THE SOFTWARE.
 -->
-<!--add comments-->
+<!--add comments 20080324-->
 <project name="PROJECT_NAME" basedir="." default="metrics">
     <import file="panopticode/panopticode-imports.xml" />
 
