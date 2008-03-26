@@ -1,6 +1,7 @@
 package com.google.code.calc;
 
 //add comments
+//add another comments
 
 public class Calc {
     public Integer add(int digita, int digitb) {
